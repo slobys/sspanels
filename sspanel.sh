@@ -127,7 +127,7 @@ cat > /etc/nginx/sites-available/sspanel.conf <<"eof"
 server {  
     listen 80;
     listen [::]:80;
-    root /var/www/SSPanel-Uim/public; # 改成你自己的路径，需要以 /public 结尾
+    root /var/www/sspanel/public; # 改成你自己的路径，需要以 /public 结尾
     index index.php index.html;
     # server_name https://gz1903.github.io; # 改成你自己的域名
 
@@ -152,14 +152,14 @@ echo -e "\033[36m#                   正在编译sspanel软件 请稍等~       
 echo -e "\033[36m#                                                                     #\033[0m"
 echo -e "\033[36m#######################################################################\033[0m"
 # 安装sspanel软件包
-# 去官网下载编译安装的sspanel：https://github.com/Anankke/SSPanel-Uim.git
+# 去官网下载编译安装的sspanel：https://github.com/Anankke/SSPanel-UIM.git
 # 清空目录文件
 rm -rf /var/www/*
 
 cd /var/www/
-git clone https://github.com/Anankke/SSPanel-Uim.git
+git clone https://github.com/Anankke/SSPanel-UIM.git sspanel
 # 下载 composer
-cd /var/www/SSPanel-Uim/
+cd /var/www/sspanel/
 git config core.filemode false
 wget https://getcomposer.org/installer -O composer.phar
 echo -e "\033[32m软件下载安装中，时间较长请稍等~\033[0m"
@@ -172,24 +172,24 @@ chmod -R 755 ${PWD}
 chown -R www-data:www-data ${PWD}
 
 # 修改配置文件
-cd /var/www/SSPanel-Uim/
+cd /var/www/sspanel/
 cp config/.config.example.php config/.config.php
 cp config/appprofile.example.php config/appprofile.php
 # 设置sspanel数据库连接
 # 设置此key为随机字符串确保网站安全 !!!
-sed -i "s/1145141919810/aksgsj@h$RANDOM/" /var/www/SSPanel-Uim/config/.config.php
+sed -i "s/1145141919810/aksgsj@h$RANDOM/" /var/www/sspanel/config/.config.php
 # 站点名称
-sed -i "s/SSPanel-UIM/飞一般的感觉/" /var/www/SSPanel-Uim/config/.config.php
+sed -i "s/sspanel/飞一般的感觉/" /var/www/sspanel/config/.config.php
 # 站点地址
-sed -i "s/https:\/\/sspanel.host/http:\/\/$ips/" /var/www/SSPanel-Uim/config/.config.php
+sed -i "s/https:\/\/sspanel.host/http:\/\/$ips/" /var/www/sspanel/config/.config.php
 # 用于校验魔改后端请求
-sed -i "s/NimaQu/sadg^#@s$RANDOM/" /var/www/SSPanel-Uim/config/.config.php
+sed -i "s/NimaQu/sadg^#@s$RANDOM/" /var/www/sspanel/config/.config.php
 # 设置sspanel数据库连接地址
-sed -i "s/host'\]      = ''/host'\]      = '127.0.0.1'/" /var/www/SSPanel-Uim/config/.config.php
+sed -i "s/host'\]      = ''/host'\]      = '127.0.0.1'/" /var/www/sspanel/config/.config.php
 # 设置数据库连接密码
-sed -i "s/password'\]  = 'sspanel'/password'\]  = '$Database_Password'/" /var/www/SSPanel-Uim/config/.config.php
+sed -i "s/password'\]  = 'sspanel'/password'\]  = '$Database_Password'/" /var/www/sspanel/config/.config.php
 # 导入数据库文件
-mysql -uroot -p$Database_Password sspanel < /var/www/SSPanel-Uim/sql/glzjin_all.sql;
+mysql -uroot -p$Database_Password sspanel < /var/www/sspanel/sql/glzjin_all.sql;
 echo -e "\033[36m设置管理员账号：\033[0m"
 php xcat User createAdmin
 # 重置所有流量
@@ -204,8 +204,8 @@ echo -e "\033[32m--------------------------- 安装已完成 -------------------
 echo -e "\033[32m 数据库名     :sspanel\033[0m"
 echo -e "\033[32m 数据库用户名 :root\033[0m"
 echo -e "\033[32m 数据库密码   :"$Database_Password
-echo -e "\033[32m 网站目录     :/var/www/SSPanel-Uim\033[0m"
-echo -e "\033[32m 配置目录     :/var/www/SSPanel-Uim/config/.config.php\033[0m"
+echo -e "\033[32m 网站目录     :/var/www/sspanel\033[0m"
+echo -e "\033[32m 配置目录     :/var/www/sspanel/config/.config.php\033[0m"
 echo -e "\033[32m 网页内网访问 :http://"$ip
 echo -e "\033[32m 网页外网访问 :http://"$ips
 echo -e "\033[32m 安装日志文件 :/var/log/"$install_date
