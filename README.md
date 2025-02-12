@@ -23,7 +23,7 @@ SSPanel UIM 是一款专为 Shadowsocks / ShadowsocksR / V2Ray / Trojan 设计�
 ###### 一键脚本：
 
 ```
-git clone https://github.com/Anankke/SSPanel-UIM.git && cd sspanels && chmod +x sspanel.sh && ./sspanel.sh
+git clone https://github.com/Anankke/SSPanel-UIM.git && cd SSPanel-UIM && chmod +x sspanel.sh && ./sspanel.sh
 ```
 
 ###### 更多信息请访问：https://github.com/Anankke/SSPanel-Uim.git
