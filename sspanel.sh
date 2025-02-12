@@ -82,11 +82,11 @@ process() {
     echo -e "\033[36m#         正在安装配置PHP环境及扩展  时间较长请稍等~                  #\033[0m"
     echo -e "\033[36m#                                                                     #\033[0m"
     echo -e "\033[36m#######################################################################\033[0m"
-    # 安装PHP 7.3及扩展
+    # 安装PHP 8.2及扩展
     add-apt-repository ppa:ondrej/php -y
     apt update
-    apt install -y php7.3-fpm php7.3-mysql php7.3-curl php7.3-gd php7.3-mbstring php7.3-xml php7.3-xmlrpc php7.3-opcache php7.3-zip php7.3 php7.3-json php7.3-bz2 php7.3-bcmath
-    sudo systemctl enable php7.3-fpm
+    apt install -y php8.2-fpm php8.2-mysql php8.2-curl php8.2-gd php8.2-mbstring php8.2-xml php8.2-xmlrpc php8.2-opcache php8.2-zip php8.2 php8.2-json php8.2-bz2 php8.2-bcmath
+    sudo systemctl enable php8.2-fpm
 
     echo -e "\033[36m#######################################################################\033[0m"
     echo -e "\033[36m#                                                                     #\033[0m"
@@ -122,7 +122,7 @@ server {
 
     location ~ \.php$ {
         include snippets/fastcgi-php.conf;
-        fastcgi_pass unix:/run/php/php7.3-fpm.sock;
+        fastcgi_pass unix:/run/php/php8.2-fpm.sock;
     }
 }
 eof
@@ -133,7 +133,6 @@ eof
     echo -e "\033[36m#######################################################################\033[0m"
     echo -e "\033[36m#                                                                     #\033[0m"
     echo -e "\033[36m#                   正在编译sspanel软件 请稍等~                       #\033[0m"
-    echo -e "\033[36m#                                                                     #\033[0m"
     echo -e "\033[36m#######################################################################\033[0m"
     # 清空原有目录（注意：此操作将删除 /var/www/ 下所有文件，请确保为干净环境）
     rm -rf /var/www/*
