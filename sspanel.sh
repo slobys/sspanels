@@ -104,11 +104,11 @@ process() {
     echo -e "\033[36m#                    正在配置Nginx 请稍等~                            #\033[0m"
     echo -e "\033[36m#                                                                     #\033[0m"
     echo -e "\033[36m#######################################################################\033[0m"
-    # 更新 Nginx 配置（注意：将站点根目录统一改为 /var/www/sspanels/public）
+    # 更新 Nginx 配置（统一使用 /var/www/sspanels/public 作为站点根目录）
     rm -rf /etc/nginx/sites-enabled/default
     rm -rf /etc/nginx/sites-available/sspanel.conf
     touch /etc/nginx/sites-available/sspanel.conf
-    cat > /etc/nginx/sites-available/sspanel.conf <<\"eof\"
+    cat > /etc/nginx/sites-available/sspanel.conf << "eof"
 server {  
     listen 80;
     listen [::]:80;
@@ -135,17 +135,17 @@ eof
     echo -e "\033[36m#                   正在编译sspanel软件 请稍等~                       #\033[0m"
     echo -e "\033[36m#                                                                     #\033[0m"
     echo -e "\033[36m#######################################################################\033[0m"
-    # 清空原有目录（注意：这一步将删除 /var/www/ 下所有文件，请谨慎使用）
+    # 清空原有目录（注意：此操作将删除 /var/www/ 下所有文件，请确保为干净环境）
     rm -rf /var/www/*
     cd /var/www/
-    # 克隆项目到目标目录（确保名称一致，这里统一使用 sspanels 作为目录名）
+    # 克隆项目到目标目录，统一使用目录名 sspanels
     git clone https://github.com/Anankke/SSPanel-UIM.git sspanels
     # 下载 composer
     cd /var/www/sspanels/
     git config core.filemode false
     wget https://getcomposer.org/installer -O composer.phar
     echo -e "\033[32m软件下载安装中，时间较长请稍等~\033[0m"
-    # 安装 PHP 依赖（加入 --no-interaction 及忽略平台扩展检查，如果需要可加 --ignore-platform-req 参数）
+    # 安装 PHP 依赖（加上 --no-interaction 参数）
     php composer.phar install --no-dev --no-interaction
     echo -e "\033[32m请输入yes确认安装！~\033[0m"
     php composer.phar install --no-dev --no-interaction
