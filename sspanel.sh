@@ -164,7 +164,7 @@ git config core.filemode false
 wget https://getcomposer.org/installer -O composer.phar
 echo -e "\033[32m软件下载安装中，时间较长请稍等~\033[0m"
 # 安装 PHP 依赖
-php composer.phar
+php composer.phar install --no-dev --no-interaction
 echo -e "\033[32m请输入yes确认安装！~\033[0m"
 php composer.phar install
 # 调整目录权限
