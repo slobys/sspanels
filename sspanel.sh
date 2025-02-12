@@ -145,10 +145,10 @@ eof
     git config core.filemode false
     wget https://getcomposer.org/installer -O composer.phar
     echo -e "\033[32m软件下载安装中，时间较长请稍等~\033[0m"
-    # 安装 PHP 依赖（加上 --no-interaction 参数）
-    php composer.phar install --no-dev --no-interaction
+    # 安装 PHP 依赖（加上 --no-interaction 及忽略扩展要求参数）
+    php composer.phar install --no-dev --no-interaction --ignore-platform-req=ext-redis --ignore-platform-req=ext-yaml
     echo -e "\033[32m请输入yes确认安装！~\033[0m"
-    php composer.phar install --no-dev --no-interaction
+    php composer.phar install --no-dev --no-interaction --ignore-platform-req=ext-redis --ignore-platform-req=ext-yaml
     # 调整目录权限
     chmod -R 755 ${PWD}
     chown -R www-data:www-data ${PWD}
@@ -169,8 +169,12 @@ eof
     sed -i "s/host'\]      = ''/host'\]      = '127.0.0.1'/" /var/www/sspanels/config/.config.php
     # 设置数据库连接密码
     sed -i "s/password'\]  = 'sspanels'/password'\]  = '$Database_Password'/" /var/www/sspanels/config/.config.php
-    # 导入数据库文件
-    mysql -uroot -p$Database_Password sspanels < /var/www/sspanels/sql/glzjin_all.sql;
+    # 导入数据库文件（检查文件是否存在）
+    if [ -f /var/www/sspanels/sql/glzjin_all.sql ]; then
+        mysql -uroot -p$Database_Password sspanels < /var/www/sspanels/sql/glzjin_all.sql
+    else
+        echo "SQL文件 /var/www/sspanels/sql/glzjin_all.sql 未找到，跳过数据库导入。"
+    fi
     echo "设置管理员账号："
     php xcat User createAdmin
     # 重置所有流量
