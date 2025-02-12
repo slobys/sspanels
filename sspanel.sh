@@ -157,7 +157,7 @@ echo -e "\033[36m###############################################################
 rm -rf /var/www/*
 
 cd /var/www/
-git clone https://github.com/slobys/sspanels.git
+git clone https://github.com/Anankke/SSPanel-Uim.git
 # 下载 composer
 cd /var/www/sspanels/
 git config core.filemode false
