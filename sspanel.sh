@@ -96,6 +96,7 @@ process() {
     echo -e "\033[36m#######################################################################\033[0m"
     mysqladmin -u root password "$Database_Password"
     echo -e "\033[36m数据库密码设置完成！\033[0m"
+    # 数据库名称使用 sspanels（和后续 sed 保持一致）
     mysql -uroot -p$Database_Password -e "CREATE DATABASE sspanels CHARACTER set utf8 collate utf8_bin;"
     echo "正在创建 sspanels 数据库"
 
@@ -148,11 +149,18 @@ eof
     cp config/.config.example.php config/.config.php
     cp config/appprofile.example.php config/appprofile.php
 
-    # 使用针对行末带注释的 sed 命令
-    sed -i "s|\\$ENV('db_host')     = '';|\\$ENV('db_host')     = '127.0.0.1';|" /var/www/sspanels/config/.config.php
-    sed -i "s|\\$ENV('db_database') = 'sspanel'; //数据库名|\\$ENV('db_database') = 'sspanels'; //数据库名|" /var/www/sspanels/config/.config.php
-    sed -i "s|\\$ENV('db_username') = 'root'; //数据库用户名|\\$ENV('db_username') = 'root'; //数据库用户名|" /var/www/sspanels/config/.config.php
-    sed -i "s|\\$ENV('db_password') = 'sspanel'; //用户密码|\\$ENV('db_password') = '$Database_Password'; //用户密码|" /var/www/sspanels/config/.config.php
+    # ★★★ 重点：精准匹配含有 ; //注释 的行 ★★★
+    # db_host 行 (如果没有注释，直接匹配)
+    sed -i "s|\$ENV('db_host')     = '';|\$ENV('db_host')     = '127.0.0.1';|" /var/www/sspanels/config/.config.php
+
+    # db_database 行 (含 ; //数据库名 注释)
+    sed -i "s|\$ENV('db_database') = 'sspanel'; //数据库名|\$ENV('db_database') = 'sspanels'; //数据库名|" /var/www/sspanels/config/.config.php
+
+    # db_username 行 (含 ; //数据库用户名 注释)
+    sed -i "s|\$ENV('db_username') = 'root'; //数据库用户名|\$ENV('db_username') = 'root'; //数据库用户名|" /var/www/sspanels/config/.config.php
+
+    # db_password 行 (含 ; //用户密码 注释)
+    sed -i "s|\$ENV('db_password') = 'sspanel'; //用户密码|\$ENV('db_password') = '$Database_Password'; //用户密码|" /var/www/sspanels/config/.config.php
 
     echo "当前数据库配置："
     grep 'db_' /var/www/sspanels/config/.config.php
