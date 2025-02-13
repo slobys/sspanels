@@ -18,8 +18,8 @@ if ! command -v php8.2 >/dev/null 2>&1; then
     # 添加 ondrej/php PPA
     sudo add-apt-repository ppa:ondrej/php -y
     sudo apt update
-    # 安装 PHP 8.2 及常用扩展（根据需要可调整扩展列表）
-    sudo apt install -y php8.2-fpm php8.2-mysql php8.2-curl php8.2-gd php8.2-mbstring php8.2-xml php8.2-xmlrpc php8.2-opcache php8.2-zip php8.2 php8.2-bz2 php8.2-bcmath
+    # 安装 PHP 8.2 及常用扩展
+    sudo apt install -y php8.2-fpm php8.2-cli php8.2-mysql php8.2-curl php8.2-gd php8.2-mbstring php8.2-xml php8.2-xmlrpc php8.2-opcache php8.2-zip php8.2-bz2 php8.2-bcmath
     # 检查安装是否成功
     if ! command -v php8.2 >/dev/null 2>&1; then
         echo "Error: PHP 8.2 自动安装失败，请手动安装。"
@@ -53,7 +53,6 @@ process() {
     ips="$(curl ip.sb)"
 
     echo -e "\033[36m#######################################################################\033[0m"
-    echo -e "\033[36m#                                                                     #\033[0m"
     echo -e "\033[36m#                    正在安装常用组件 请稍等~                         #\033[0m"
     echo -e "\033[36m#######################################################################\033[0m"
     # 更新必备基础软件
@@ -89,7 +88,7 @@ process() {
     echo -e "\033[36m#######################################################################\033[0m"
     add-apt-repository ppa:ondrej/php -y
     apt update
-    apt install -y php8.2-fpm php8.2-mysql php8.2-curl php8.2-gd php8.2-mbstring php8.2-xml php8.2-xmlrpc php8.2-opcache php8.2-zip php8.2 php8.2-json php8.2-bz2 php8.2-bcmath
+    apt install -y php8.2-fpm php8.2-mysql php8.2-curl php8.2-gd php8.2-mbstring php8.2-xml php8.2-xmlrpc php8.2-opcache php8.2-zip php8.2-bz2 php8.2-bcmath
     sudo systemctl enable php8.2-fpm
 
     echo -e "\033[36m#######################################################################\033[0m"
@@ -97,8 +96,8 @@ process() {
     echo -e "\033[36m#######################################################################\033[0m"
     mysqladmin -u root password "$Database_Password"
     echo -e "\033[36m数据库密码设置完成！\033[0m"
-    mysql -uroot -p$Database_Password -e "CREATE DATABASE sspanel CHARACTER set utf8 collate utf8_bin;"
-    echo "正在创建 sspanel 数据库"
+    mysql -uroot -p$Database_Password -e "CREATE DATABASE sspanels CHARACTER set utf8 collate utf8_bin;"
+    echo "正在创建 sspanels 数据库"
 
     echo -e "\033[36m#######################################################################\033[0m"
     echo -e "\033[36m#                    正在配置 Nginx 请稍等~                            #\033[0m"
@@ -167,7 +166,7 @@ eof
     echo "服务启动完成"
 
     echo -e "\033[32m--------------------------- 安装已完成 ---------------------------\033[0m"
-    echo -e "\033[32m 数据库名     :sspanel\033[0m"
+    echo -e "\033[32m 数据库名     :sspanels\033[0m"
     echo -e "\033[32m 数据库用户名 :root\033[0m"
     echo -e "\033[32m 数据库密码   :$Database_Password\033[0m"
     echo -e "\033[32m 网站目录     :/var/www/sspanels\033[0m"
