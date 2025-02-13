@@ -19,7 +19,7 @@ if ! command -v php8.2 >/dev/null 2>&1; then
     sudo add-apt-repository ppa:ondrej/php -y
     sudo apt update
     # 安装 PHP 8.2 及常用扩展（根据需要可调整扩展列表）
-    sudo apt install -y php8.2-fpm php8.2-cli php8.2-mysql php8.2-curl php8.2-gd php8.2-mbstring php8.2-xml php8.2-xmlrpc php8.2-opcache php8.2-zip php8.2-json php8.2-bz2 php8.2-bcmath
+    sudo apt install -y php8.2-fpm php8.2-mysql php8.2-curl php8.2-gd php8.2-mbstring php8.2-xml php8.2-xmlrpc php8.2-opcache php8.2-zip php8.2 php8.2-bz2 php8.2-bcmath
     # 检查安装是否成功
     if ! command -v php8.2 >/dev/null 2>&1; then
         echo "Error: PHP 8.2 自动安装失败，请手动安装。"
