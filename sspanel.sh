@@ -52,56 +52,56 @@ process() {
     # 获取主机外网 IP
     ips="$(curl ip.sb)"
 
-    echo -e "\033[36m#######################################################################\033[0m"
-    echo -e "\033[36m#                    正在安装常用组件 请稍等~                         #\033[0m"
-    echo -e "\033[36m#######################################################################\033[0m"
+    echo -e "\033[36m#######################################################################
+#                    正在安装常用组件 请稍等~                         
+#######################################################################\033[0m"
     # 更新必备基础软件
     apt update && apt upgrade -y
     apt install -y curl vim wget unzip apt-transport-https lsb-release ca-certificates git gnupg2
     apt install software-properties-common
 
-    echo -e "\033[36m#######################################################################\033[0m"
-    echo -e "\033[36m#                  正在配置 Firewall 策略 请稍等~                       #\033[0m"
-    echo -e "\033[36m#######################################################################\033[0m"
+    echo -e "\033[36m#######################################################################
+#                  正在配置 Firewall 策略 请稍等~                       
+#######################################################################\033[0m"
     sudo ufw allow 80
 
-    echo -e "\033[36m#######################################################################\033[0m"
-    echo -e "\033[36m#                 正在安装 MariaDB 数据库 请稍等~                       #\033[0m"
-    echo -e "\033[36m#######################################################################\033[0m"
+    echo -e "\033[36m#######################################################################
+#                 正在安装 MariaDB 数据库 请稍等~                       
+#######################################################################\033[0m"
     sudo apt-get install software-properties-common dirmngr apt-transport-https
     sudo apt-key adv --fetch-keys 'https://mariadb.org/mariadb_release_signing_key.asc'
     sudo add-apt-repository 'deb [arch=amd64,arm64,ppc64el] https://mirrors.tuna.tsinghua.edu.cn/mariadb/repo/10.5/ubuntu bionic main'
     sudo apt update
     sudo apt install mariadb-server -y
 
-    echo -e "\033[36m#######################################################################\033[0m"
-    echo -e "\033[36m#         正在安装 Nginx 环境  时间较长请稍等~                          #\033[0m"
-    echo -e "\033[36m#######################################################################\033[0m"
+    echo -e "\033[36m#######################################################################
+#         正在安装 Nginx 环境  时间较长请稍等~                          
+#######################################################################\033[0m"
     add-apt-repository ppa:ondrej/nginx -y
     apt update
     sudo apt install nginx -y
     sudo systemctl enable nginx
     nginx -V
 
-    echo -e "\033[36m#######################################################################\033[0m"
-    echo -e "\033[36m#         正在安装配置 PHP 环境及扩展  时间较长请稍等~                  #\033[0m"
-    echo -e "\033[36m#######################################################################\033[0m"
+    echo -e "\033[36m#######################################################################
+#         正在安装配置 PHP 环境及扩展  时间较长请稍等~                  
+#######################################################################\033[0m"
     add-apt-repository ppa:ondrej/php -y
     apt update
     apt install -y php8.2-fpm php8.2-mysql php8.2-curl php8.2-gd php8.2-mbstring php8.2-xml php8.2-xmlrpc php8.2-opcache php8.2-zip php8.2-bz2 php8.2-bcmath
     sudo systemctl enable php8.2-fpm
 
-    echo -e "\033[36m#######################################################################\033[0m"
-    echo -e "\033[36m#                   正在配置 Mysql 数据库 请稍等~                       #\033[0m"
-    echo -e "\033[36m#######################################################################\033[0m"
+    echo -e "\033[36m#######################################################################
+#                   正在配置 Mysql 数据库 请稍等~                       
+#######################################################################\033[0m"
     mysqladmin -u root password "$Database_Password"
     echo -e "\033[36m数据库密码设置完成！\033[0m"
     mysql -uroot -p$Database_Password -e "CREATE DATABASE sspanels CHARACTER set utf8 collate utf8_bin;"
     echo "正在创建 sspanels 数据库"
 
-    echo -e "\033[36m#######################################################################\033[0m"
-    echo -e "\033[36m#                    正在配置 Nginx 请稍等~                            #\033[0m"
-    echo -e "\033[36m#######################################################################\033[0m"
+    echo -e "\033[36m#######################################################################
+#                    正在配置 Nginx 请稍等~                            
+#######################################################################\033[0m"
     rm -rf /etc/nginx/sites-enabled/default
     rm -rf /etc/nginx/sites-available/sspanel.conf
     touch /etc/nginx/sites-available/sspanel.conf
@@ -127,9 +127,9 @@ eof
     ln -s /etc/nginx/sites-available/sspanel.conf sspanel
     nginx -s reload
 
-    echo -e "\033[36m#######################################################################\033[0m"
-    echo -e "\033[36m#                   正在编译 sspanel 软件 请稍等~                       #\033[0m"
-    echo -e "\033[36m#######################################################################\033[0m"
+    echo -e "\033[36m#######################################################################
+#                   正在编译 sspanel 软件 请稍等~                       
+#######################################################################\033[0m"
     rm -rf /var/www/*
     cd /var/www/
     git clone https://github.com/Anankke/SSPanel-UIM.git sspanels
@@ -152,11 +152,15 @@ eof
     sed -i "s/NimaQu/sadg^#@s$RANDOM/" /var/www/sspanels/config/.config.php
     sed -i "s/host'\]      = ''/host'\]      = '127.0.0.1'/" /var/www/sspanels/config/.config.php
     sed -i "s/password'\]  = 'sspanels'/password'\]  = '$Database_Password'/" /var/www/sspanels/config/.config.php
-    if [ -f /var/www/sspanels/sql/glzjin_all.sql ]; then
-        mysql -uroot -p$Database_Password sspanels < /var/www/sspanels/sql/glzjin_all.sql
-    else
-        echo "SQL文件 /var/www/sspanels/sql/glzjin_all.sql 未找到，跳过数据库导入。"
-    fi
+
+    # 由于当前版本项目中没有 sql 文件夹，请参照项目文档进行数据库初始化
+    # if [ -f /var/www/sspanels/sql/glzjin_all.sql ]; then
+    #     mysql -uroot -p$Database_Password sspanels < /var/www/sspanels/sql/glzjin_all.sql
+    # else
+    #     echo "SQL文件 /var/www/sspanels/sql/glzjin_all.sql 未找到，跳过数据库导入。"
+    # fi
+    echo "请根据项目文档初始化数据库（例如执行迁移命令）！"
+
     echo "设置管理员账号："
     ${PHP_CMD} xcat User createAdmin
     ${PHP_CMD} xcat User resetTraffic
