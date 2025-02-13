@@ -145,9 +145,9 @@ eof
     wget https://getcomposer.org/installer -O composer.phar
     echo -e "\033[32m软件下载安装中，时间较长请稍等~\033[0m"
     # 安装 PHP 依赖（加上 --no-interaction 及忽略扩展要求参数）
-    php composer.phar install --no-dev --no-interaction --ignore-platform-req=ext-redis --ignore-platform-req=ext-yaml
+    php8.2 composer.phar install --no-dev --no-interaction --ignore-platform-req=ext-redis --ignore-platform-req=ext-yaml
     echo -e "\033[32m请输入yes确认安装！~\033[0m"
-    php composer.phar install --no-dev --no-interaction --ignore-platform-req=ext-redis --ignore-platform-req=ext-yaml
+    php8.2 composer.phar install --no-dev --no-interaction --ignore-platform-req=ext-redis --ignore-platform-req=ext-yaml
     # 调整目录权限
     chmod -R 755 ${PWD}
     chown -R www-data:www-data ${PWD}
@@ -175,11 +175,11 @@ eof
         echo "SQL文件 /var/www/sspanels/sql/glzjin_all.sql 未找到，跳过数据库导入。"
     fi
     echo "设置管理员账号："
-    php xcat User createAdmin
+    php8.2 xcat User createAdmin
     # 重置所有流量
-    php xcat User resetTraffic
+    php8.2 xcat User resetTraffic
     # 下载 IP 地址库
-    php xcat Tool initQQWry
+    php8.2 xcat Tool initQQWry
 
     nginx -s reload
     echo "服务启动完成"
